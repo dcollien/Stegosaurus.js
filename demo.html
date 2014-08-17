@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<script src="Steganography.js"></script>
+<script src="ImageProtector.js"></script>
+<canvas id="imageCanvas"></canvas>
+
+<script>
+	var canvas = document.getElementById('imageCanvas');
+	var context = canvas.getContext('2d');
+	var imageObj = new Image();
+
+	imageObj.onload = function() {
+		canvas.width = this.width;
+		canvas.height = this.height;
+		context.drawImage(this, 0, 0);
+
+		Steganography.insertMessage(canvas, "This is a very secret message.");
+
+		// Mess with anyone trying to save the image
+		ImageProtector.lockCanvas(canvas);
+		ImageProtector.selfDestruct();
+		canvas = null;
+	};
+	
+	imageObj.src = 'stegosaurus.jpg';
+</script>
+
